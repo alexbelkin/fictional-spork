@@ -1,0 +1,30 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    networks:
+      app_network:
+        aliases:
+          - frontend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+    restart: unless-stopped
+    environment:
+      - PORT=4000
+    networks:
+      app_network:
+        aliases:
+          - backend
+
+networks:
+  app_network:
+    driver: bridge
